@@ -198,26 +198,34 @@ end
 disp('Circular convolution result (manual method):');
 disp(y_circular);`,
 
-  '4 b': `% Define your circular convolution result and the length of the original sequences
-circular_conv = [1 2 3 4 5 6 7 8];
-N = 4;
+  '4 b': `% Define the two input sequences
+x = [1 2 3];  % Example sequence 1
+h = [4 5];    % Example sequence 2
 
-L = length(circular_conv);
+% Get lengths of input sequences
+L = length(x);
+M = length(h);
+N = L + M - 1;  % Length needed for linear convolution
 
-padding_length = 2 * N;
+% Zero-pad the sequences to length N
+x_padded = [x, zeros(1, N - L)];
+h_padded = [h, zeros(1, N - M)];
 
-circular_conv_padded = [circular_conv, zeros(1, padding_length - L)];
-
-linear_conv = zeros(1, padding_length);
-
-for n = 1:padding_length
-    for k = 1:padding_length
-        linear_conv(n) = linear_conv(n) + circular_conv_padded(mod(n - k, L) + 1) * circular_conv_padded(mod(k - n, L) + 1);
+% Circular Convolution (to simulate linear convolution)
+y_circular = zeros(1, N);
+for n = 1:N
+    for k = 1:N
+        index = mod(n-k, N);
+        if index < 0
+            index = index + N;
+        end
+        y_circular(n) = y_circular(n) + x_padded(k) * h_padded(index + 1);
     end
 end
 
-disp('Linear Convolution Result:');
-disp(linear_conv);`,
+% Display results
+disp('Linear Convolution Result (via Circular Convolution with zero-padding):');
+disp(y_circular);`,
 
   '4 c': `% Define your sequences
 x = [1 2 3 4];
