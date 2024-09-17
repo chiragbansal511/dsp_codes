@@ -390,7 +390,69 @@ subplot(3, 1, 3);
 plot(hanning_freq);
 title('Hanning Window (Frequency Domain)');
 xlabel('Frequency Bin');
-ylabel('Magnitude');`
+ylabel('Magnitude');` , '6' : '% MATLAB Script to Design Low-Pass Filter Using Rectangular and Triangular Windows
+
+% User Inputs
+f_p = 1000;      % Pass band edge frequency in Hz
+delta_f = 200;   % Transition width in Hz
+A_s = 40;        % Stop band attenuation in dB
+f_s = 5000;      % Sampling frequency in Hz
+
+% Normalize frequencies
+omega_p = 2 * pi * f_p / f_s;
+omega_s = 2 * pi * (f_p + delta_f) / f_s;
+transition_width = omega_s - omega_p;
+
+% Estimate filter order
+N = ceil((A_s - 7.95) / (2.285 * (transition_width / pi)));
+
+% Adjust N to be odd
+if mod(N, 2) == 0
+    N = N + 1;
+end
+
+% Ideal low-pass filter impulse response
+n = (0:N-1) - (N-1)/2;
+h_ideal = sin(omega_p * n) ./ (pi * n);
+h_ideal((N-1)/2 + 1) = omega_p / pi;
+
+% Rectangular window
+w_rect = ones(1, N);
+h_rect = h_ideal .* w_rect;
+
+% Triangular window
+w_tri = 1 - abs(n) / ((N-1)/2);
+h_tri = h_ideal .* w_tri;
+
+% Frequency response
+[H_rect, f_rect] = freqz(h_rect, 1, 2048, 'half');
+[H_tri, f_tri] = freqz(h_tri, 1, 2048, 'half');
+
+% Convert frequency to Hz
+f_rect = f_rect * f_s / (2 * pi);
+f_tri = f_tri * f_s / (2 * pi);
+
+% Plot frequency response
+figure;
+
+subplot(2,1,1);
+plot(f_rect, abs(H_rect), 'b');
+title('Frequency Response with Rectangular Window');
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+legend('Satyam Das 102215089')
+grid on;
+
+subplot(2,1,2);
+plot(f_tri, abs(H_tri), 'r');
+title('Frequency Response with Triangular Window');
+xlabel('Frequency (Hz)');
+ylabel('Magnitude');
+legend('Satyam Das 102215089')
+grid on;
+
+% Display filter order
+disp(['Filter order (N): ', num2str(N)]);'
 };
 
 function App() {
