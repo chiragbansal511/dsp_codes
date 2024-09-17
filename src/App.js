@@ -390,7 +390,7 @@ subplot(3, 1, 3);
 plot(hanning_freq);
 title('Hanning Window (Frequency Domain)');
 xlabel('Frequency Bin');
-ylabel('Magnitude');` , '6' : '% MATLAB Script to Design Low-Pass Filter Using Rectangular and Triangular Windows
+ylabel('Magnitude');` , '6' : `% MATLAB Script to Design Low-Pass Filter Using Rectangular and Triangular Windows
 
 % User Inputs
 f_p = 1000;      % Pass band edge frequency in Hz
@@ -452,7 +452,7 @@ legend('Satyam Das 102215089')
 grid on;
 
 % Display filter order
-disp(['Filter order (N): ', num2str(N)]);'
+disp(['Filter order (N): ', num2str(N)]); `
 };
 
 function App() {
