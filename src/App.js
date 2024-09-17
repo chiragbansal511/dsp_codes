@@ -404,7 +404,6 @@ function App() {
 
   return (
     <div className="App">
-      <h1>MATLAB Code Snippets</h1>
       <div className="button-container">
         {Object.keys(codes).map((key) => (
           <button className="code-button" key={key} onClick={() => copyToClipboard(codes[key])}>
