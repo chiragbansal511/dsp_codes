@@ -397,13 +397,16 @@ function App() {
   return (
     <div className="App">
       <h1>MATLAB Code Snippets</h1>
-      {Object.keys(codes).map(key => (
-        <button key={key} onClick={() => copyToClipboard(codes[key])}>
-          {key}
-        </button>
-      ))}
+      <div className="button-container">
+        {Object.keys(codes).map((key) => (
+          <button className="code-button" key={key} onClick={() => copyToClipboard(codes[key])}>
+            {key}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }
 
 export default App;
+
